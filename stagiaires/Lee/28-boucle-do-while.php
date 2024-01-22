@@ -15,6 +15,12 @@ $nbPaysParPage = 20;
 // On calcule le nombre de pages nécessaires
 // pour afficher toutes les régions, ceil arrondit à l'entier supérieur
 $nbPages = ceil($nbPays / $nbPaysParPage);
+if(!empty($_GET['pg']) && ctype_digit($_GET['pg'])){
+    $pageActu =(int)$_GET['pg'];
+}else{
+    $pageActu = 1;
+}
+
 
 ?>
 <!doctype html>
@@ -43,58 +49,29 @@ $nbPages = ceil($nbPays / $nbPaysParPage);
 
     <hr>
     <h4>Ici la pagination</h4>
-    
-<?php
-if(isset($_GET["pg"])){
-    switch($_GET["pg"]){
-        case "1":
-            $i = 1; 
-            do{
-                echo "$depFr[$i]<br>";
-                $i++;
-            }while ($i<21);
-        break;
-        case "2":
-            $i = 21;
-            do{
-                echo "$depFr[$i]<br>";
-                $i++;
-            }while ($i<41);
-        break;
-        case "3":
-            $i = 41;
-            do{
-                echo "$depFr[$i]<br>";
-                $i++;
-            }while ($i<61);
-        break;
-        case "4":
-            $i = 61;
-            do{
-                echo "$depFr[$i]<br>";
-                $i++;
-            }while ($i<81);
-        break;
-        case "5":
-            $i = 81;
-            do{
-                echo "$depFr[$i]<br>";
-                $i++;
-            }while ($i<100);
-        break;
-        case "6":
-            $i = 100;
-            do{
-                echo "$depFr[$i]<br>";
-                $i++;
-            }while ($i<101);
-        break;
-        default:
-        include('page404.php');
 
-        }
-    }
+<?php
+$begin =($pageActu-1)*$nbPaysParPage;
+$end = $begin + $nbPaysParPage;
+$i=0;
+do{
+    echo "$depFr[$begin] <br>";
+$begin++;
+}while($begin < $end && $begin < $nbPays);
+
+  $i=1;
+  do{
+  ?>
+  <a href ="?pg=<?=$i?>"><?=$i?></a>
+  <?php
+      $i++;
+  }while($i <= $nbPages);
+  echo "</br>";
+
+
     ?>
-    <a href="?pg=1">1 </a><a href="?pg=2">2 </a><a href="?pg=3">3 </a><a href="?pg=4">4 </a><a href="?pg=5">5 </a><a href="?pg=6">6</a>
-</body>
+   
 </html>
+
+
+    
